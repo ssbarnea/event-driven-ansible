@@ -38,6 +38,7 @@ def test_kafka_source_sanity(kafka_producer: KafkaProducer):
     s = socket.socket()
     try:
         s.connect(("127.0.0.1", 9092))
+        print("CONNECTED")
     except Exception as e:
         print("ERROR -  %s" % e)
     finally:
