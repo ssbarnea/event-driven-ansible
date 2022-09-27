@@ -33,6 +33,16 @@ def test_kafka_source_sanity(kafka_producer: KafkaProducer):
     for msg in msgs:
         kafka_producer.send(topic="kafka-events", value=msg)
 
+    import socket
+
+    s = socket.socket()
+    try:
+        s.connect(("127.0.0.1", 9092))
+    except Exception as e:
+        print("ERROR -  %s" % e)
+    finally:
+        s.close()
+
     result = CLIRunner(rules=ruleset).run()
 
     assert "'msg': 'SUCCESS'" in result.stdout.decode()
