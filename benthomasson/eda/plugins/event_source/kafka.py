@@ -40,7 +40,7 @@ async def main(queue: asyncio.Queue, args: Dict[str, Any]):
         group_id=group_id,
         enable_auto_commit=True,
         max_poll_records=1,
-        auto_offset_reset=offset,
+        auto_offset_reset="earliest",
     )
     await kafka_consumer.start()
 
@@ -55,10 +55,21 @@ async def main(queue: asyncio.Queue, args: Dict[str, Any]):
         logger.info("Stopping kafka consumer")
         await kafka_consumer.stop()
 
+
 if __name__ == "__main__":
 
     class MockQueue:
         async def put(self, event):
             print(event)
 
-    asyncio.run(main(MockQueue(), {"topic": "eda", "host": "localhost", "port": "9092", "group_id": "test"}))
+    asyncio.run(
+        main(
+            MockQueue(),
+            {
+                "topic": "eda",
+                "host": "localhost",
+                "port": "9092",
+                "group_id": "test",
+            },
+        )
+    )
