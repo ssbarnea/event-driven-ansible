@@ -13,6 +13,12 @@ updates:
       dependencies:
         patterns:
           - "*"
+        exclude-patterns:
+          - docutils
+          - pydantic-core
+    ignore:
+      - dependency-name: docutils  # sphinx-rtd-theme contrins its versions
+      - dependency-name: pydantic-core  # pydantic pins specific versions of it
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
